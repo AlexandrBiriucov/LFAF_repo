@@ -42,7 +42,7 @@ I ve learned the basics of grammar and automatons.How string are created by defi
 
 
 
-# Lab 1 - Formal Languages (Variant 2)
+# Lab 2 - Formal Languages (Variant 2)
 
 
 

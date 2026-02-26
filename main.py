@@ -10,7 +10,7 @@ for i in range(5):
 
 # g1.generate_string()
 
-
+print(g1.classify_grammar())
 
 automaton=g1.grammar_to_automaton()
 

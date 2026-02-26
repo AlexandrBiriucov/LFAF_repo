@@ -8,7 +8,7 @@
 #     S → dL
 #     R → dL
 #     R → e
-#     L → fL
+#     L → fLZ
 #     L → eL
 #     L → d
 # }
@@ -89,8 +89,19 @@ class Grammar:
 
         # print(automaton.states,automaton.alphabet,automaton.start,automaton.final,automaton.transitions)
 
-
-
+    def classify_grammar(self):
+        for lhs, rules in self.Rules.items():
+            # check if LHS is more than 1 symbol → not Type 2/3
+            if len(lhs) != 1:
+                return "Type 0 or 1 (not regular)"
+            for rule in rules:
+                # rule can be 1 or 2 symbols max for Type 3
+                if len(rule) > 2:
+                    return "Type 2 (Context-Free)"
+                # check if first character is a terminal
+                if rule[0] not in self.VT:
+                    return "Type 2 (Context-Free)"
+        return "Type 3 (Regular)"
 
 
 

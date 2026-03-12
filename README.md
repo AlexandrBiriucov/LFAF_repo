@@ -127,3 +127,211 @@ Translate finite automata into regular grammars.
 Classify grammars according to Chomsky hierarchy.
 
 This lab extends the understanding of automata theory from Lab 1 by connecting non-determinism, determinism, and grammar classification.
+
+
+
+
+
+
+# LAB 3 Lexer Implementation for a Router Configuration DSL
+
+**Course:** Formal Languages & Finite Automata
+**Topic:** Lexer & Scanner
+**Author:** Alexander Biriucov
+**Instructor:** Dumitru Cretu
+
+---
+
+# 1. Introduction
+
+Modern software systems often require specialized languages designed for a specific domain. These are called **Domain-Specific Languages (DSLs)**. A DSL allows users to describe configurations or operations in a simplified and structured way.
+
+In networking systems, routers and switches are commonly configured using command-line interfaces. Inspired by these systems, this project introduces a simple **Domain-Specific Language for router configuration**.
+
+To process such a language, the first step in a compiler or interpreter is **lexical analysis**. The goal of lexical analysis is to convert a stream of characters into meaningful components called **tokens**.
+
+This laboratory work implements a **lexer (scanner/tokenizer)** capable of reading router configuration commands and transforming them into tokens that can later be used by a parser.
+
+---
+
+# 2. Lexical Analysis
+
+Lexical analysis is the first stage of language processing. It takes the source code as input and converts it into a sequence of tokens.
+
+Key terms:
+
+**Lexeme**
+A lexeme is the actual sequence of characters extracted from the input.
+
+Example:
+
+```
+interface
+eth0
+192.168.1.1
+```
+
+**Token**
+A token is a category assigned to a lexeme.
+
+Example:
+
+| Lexeme      | Token      |
+| ----------- | ---------- |
+| interface   | INTERFACE  |
+| eth0        | IDENTIFIER |
+| 192.168.1.1 | IP_ADDRESS |
+
+The lexer scans the input and produces a **stream of tokens** that represent the structure of the program.
+
+---
+
+# 3. DSL for Router Configuration
+
+The DSL designed in this project simplifies router configuration commands. It provides a structured way to describe network interfaces, IP addresses, and routing rules.
+
+Example DSL program:
+
+```
+interface eth0
+ip 192.168.1.1
+mask 255.255.255.0
+route 0.0.0.0 via 192.168.1.254
+enable
+```
+
+This syntax is inspired by router command-line interfaces used in real networking systems.
+
+---
+
+# 4. Token Types
+
+The lexer recognizes several types of tokens.
+
+| Token Type | Description                   | Example     |
+| ---------- | ----------------------------- | ----------- |
+| INTERFACE  | Interface declaration keyword | interface   |
+| IP         | IP configuration keyword      | ip          |
+| MASK       | Network mask keyword          | mask        |
+| ROUTE      | Routing rule keyword          | route       |
+| VIA        | Route gateway keyword         | via         |
+| ENABLE     | Enable interface              | enable      |
+| IDENTIFIER | Interface name                | eth0        |
+| IP_ADDRESS | IPv4 address                  | 192.168.1.1 |
+| NUMBER     | Numeric values                | 10          |
+
+These token types allow the lexer to classify each lexeme in the DSL.
+
+---
+
+# 5. Lexer Implementation
+
+The lexer is implemented in Python. It uses **regular expressions** to identify token patterns.
+
+Example implementation:
+
+```python
+import re
+
+TOKEN_TYPES = [
+    ("INTERFACE", r"interface"),
+    ("IP", r"ip"),
+    ("MASK", r"mask"),
+    ("ROUTE", r"route"),
+    ("VIA", r"via"),
+    ("ENABLE", r"enable"),
+    ("IP_ADDRESS", r"\d+\.\d+\.\d+\.\d+"),
+    ("IDENTIFIER", r"[a-zA-Z_][a-zA-Z0-9_]*"),
+    ("NUMBER", r"\d+"),
+]
+
+def lexer(code):
+    tokens = []
+    words = code.split()
+
+    for word in words:
+        matched = False
+
+        for token_type, pattern in TOKEN_TYPES:
+            if re.fullmatch(pattern, word):
+                tokens.append((token_type, word))
+                matched = True
+                break
+
+        if not matched:
+            tokens.append(("UNKNOWN", word))
+
+    return tokens
+
+
+code = """
+interface eth0
+ip 192.168.1.1
+route 0.0.0.0 via 192.168.1.254
+enable
+"""
+
+tokens = lexer(code)
+
+for token in tokens:
+    print(token)
+```
+
+---
+
+# 6. Example Execution
+
+Input:
+
+```
+interface eth0
+ip 192.168.1.1
+enable
+```
+
+Output tokens:
+
+```
+('INTERFACE', 'interface')
+('IDENTIFIER', 'eth0')
+('IP', 'ip')
+('IP_ADDRESS', '192.168.1.1')
+('ENABLE', 'enable')
+```
+
+The lexer successfully identifies each lexeme and classifies it into a token type.
+
+---
+
+# 7. Results
+
+The implemented lexer is able to:
+
+* Read router DSL configuration text
+* Split the input into lexemes
+* Classify lexemes into tokens
+* Produce a structured token stream
+
+This token stream can later be used by a **parser** to build a syntax tree and interpret router configuration commands.
+
+---
+
+# 8. Conclusion
+
+This project demonstrates the basic principles of **lexical analysis** in language processing. A lexer was developed for a simple router configuration DSL.
+
+The implementation shows how regular expressions can be used to detect different token types such as keywords, identifiers, and IP addresses.
+
+This lexer represents the **first stage in building a full interpreter or compiler for the DSL**, which could later include parsing, semantic analysis, and execution of configuration commands.
+
+---
+
+# 9. References
+
+1. Formal Languages and Automata Theory course materials
+2. Python documentation for regular expressions
+
+
+
+
+

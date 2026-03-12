@@ -137,7 +137,7 @@ This lab extends the understanding of automata theory from Lab 1 by connecting n
 
 **Course:** Formal Languages & Finite Automata
 **Topic:** Lexer & Scanner
-**Author:** Alexander Biriucov
+**Author:** Alexandr Biriucov
 **Instructor:** Dumitru Cretu
 
 ---

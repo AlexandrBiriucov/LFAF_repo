@@ -332,7 +332,144 @@ This lexer represents the **first stage in building a full interpreter or compil
 2. Python documentation for regular expressions
 
 
+# Lab 4 – String Generation Using Regular Expression Patterns
 
+Course: Formal Languages & Finite Automata
+Topic: Regular Expressions & String Generation
+Author: Alexandr Biriucov
+Instructor: Dumitru Cretu
+
+# 1. Introduction
+
+Regular expressions are a fundamental concept in formal languages used to describe patterns of strings. They provide a compact way to represent sets of strings over a given alphabet.
+
+In this laboratory work, a simplified regex-like system is implemented in Python to generate strings based on predefined patterns. The goal is to simulate how regular expressions can define languages and how strings can be generated from these definitions.
+
+# 2. Problem Description
+
+The task is to implement a program that:
+
+Accepts predefined regex-like patterns
+Parses the patterns into tokens
+Generates random strings that follow the pattern rules
+Displays both the generated string and the sequence of transformations
+
+The program should also simulate repetition operators such as:
+
+^n → exact repetition
+^* → zero or more repetitions
+^+ → one or more repetitions
+^? → optional element
+# 3. Pattern Definition
+
+The following patterns are used:
+
+regex_patterns = [
+    r"\u? N^2 (O|P)^3 Q^* R^+",
+    r"(X|Y|Z)^3 8^+ (9|0)",
+    r"(H|i) (J|K) L^* N?"
+]
+Explanation of Patterns
+Pattern 1:
+\u? N^2 (O|P)^3 Q^* R^+
+Optional symbol (μ)
+Exactly 2 N’s
+3 repetitions of O or P
+Any number of Q’s
+At least one R
+Pattern 2:
+(X|Y|Z)^3 8^+ (9|0)
+3 characters from {X, Y, Z}
+One or more 8’s
+Ends with either 9 or 0
+Pattern 3:
+(H|i) (J|K) L^* N?
+One of H or i
+One of J or K
+Zero or more L’s
+Optional N
+# 4. Implementation
+
+The program is implemented in Python and consists of two main functions:
+
+4.1 Token Processing Function
+def generate_from_token(token):
+
+This function:
+
+Detects grouped expressions like (A|B)
+Randomly selects one option
+Handles optional symbols (\u)
+Returns the generated character
+4.2 Pattern Generation Function
+def generate_from_pattern(pattern):
+
+This function:
+
+Splits the pattern into tokens
+Detects repetition operators (^, ^*, ^+, ^?)
+Generates random repetition counts
+Builds the final string step-by-step
+Stores processing steps for debugging
+4.3 Main Execution
+
+The program:
+
+Iterates through all patterns
+Generates a string for each
+Prints:
+Generated string
+Step-by-step processing sequence
+# 5. Example Execution
+Output:
+Generated string: μ NN OPO QQQ RR
+Processing sequence:
+  Processed '\u?' -> 'μ'
+  Processed 'N^2' -> 'NN'
+  Processed '(O|P)^3' -> 'OPO'
+  Processed 'Q^*' -> 'QQQ'
+  Processed 'R^+' -> 'RR'
+Generated string: XYZ 888 9
+Processing sequence:
+  Processed '(X|Y|Z)^3' -> 'XYZ'
+  Processed '8^+' -> '888'
+  Processed '(9|0)' -> '9'
+Generated string: H K LL
+Processing sequence:
+  Processed '(H|i)' -> 'H'
+  Processed '(J|K)' -> 'K'
+  Processed 'L^*' -> 'LL'
+  Processed 'N?' -> ''
+# 6. Results
+
+The program successfully:
+
+Parses simplified regex-like patterns
+Supports repetition operators (^n, ^*, ^+, ^?)
+Handles grouped choices (A|B)
+Generates valid random strings
+Tracks the transformation process step-by-step
+# 7. Limitations
+The parser is simplified (splits by spaces only)
+Does not support full regex syntax
+Limited repetition range (0–5 for * and +)
+No nested group support
+# 8. Conclusion
+
+This laboratory work demonstrates how regular expressions can be used to describe languages and generate strings.
+
+The implementation provides a simplified model of regex parsing and generation, helping to understand:
+
+Pattern-based string generation
+Repetition operators
+Choice and optional constructs
+
+This lab builds a bridge between theoretical formal languages and practical string processing.
+
+# 9. References
+Formal Languages and Automata Theory course materials
+Python documentation
+Regular Expressions theory
 
 
 # Lab 5 – Chomsky Normal Form (CNF)

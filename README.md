@@ -335,3 +335,176 @@ This lexer represents the **first stage in building a full interpreter or compil
 
 
 
+# Lab 5 – Chomsky Normal Form (CNF)
+
+Course: Formal Languages & Finite Automata
+Topic: Context-Free Grammars & Chomsky Normal Form
+Author: Alexandr Biriucov
+Instructor: Dumitru Cretu
+
+# 1. Introduction
+
+In formal language theory, grammars are used to describe how strings are generated. However, grammars can be written in many different forms, some of which are complex and difficult to analyze.
+
+To simplify processing and enable the use of parsing algorithms, grammars are often transformed into a standardized format called Chomsky Normal Form (CNF).
+
+A grammar in CNF has strict production rules, making it easier to analyze and process automatically.
+
+The goal of this laboratory work is to transform a given Context-Free Grammar (CFG) into its equivalent CNF form.
+
+
+# 2. Problem Description
+
+The task consists of transforming a given CFG into Chomsky Normal Form by performing the following steps:
+
+Eliminate ε-productions
+Eliminate unit (renaming) productions
+Remove inaccessible symbols
+Remove non-productive symbols
+Convert the grammar into CNF
+
+Additionally, a program should be implemented that performs these transformations automatically.
+
+# 3. Grammar Definition
+
+Given grammar:
+
+VN = {S, A, B, C, D, E}
+VT = {a, b}
+P = {
+S → aB | AC
+A → a | ASC | BC | aD
+B → b | bS
+C → ε | BA
+D → abC
+E → aB
+}
+
+Start symbol:
+
+
+# 4. Methodology
+4.1 Elimination of ε-productions
+
+The production:
+
+C → ε
+
+indicates that symbol C can disappear.
+
+To eliminate ε-productions:
+
+All rules containing C are modified to include versions without C
+The ε-rule is removed
+4.2 Elimination of Unit Productions
+
+Unit productions are rules of the form:
+
+A → B
+
+These are removed by:
+
+Replacing them with the productions of the referenced symbol
+Expanding rules recursively
+4.3 Removal of Non-Productive Symbols
+
+A non-terminal is non-productive if it cannot generate terminal strings.
+
+Steps:
+
+Identify symbols that produce only terminals
+Remove symbols that cannot derive valid strings
+4.4 Removal of Inaccessible Symbols
+
+A symbol is inaccessible if it cannot be reached from the start symbol.
+
+Steps:
+
+Start from S
+Traverse all reachable symbols
+Remove unused symbols (e.g., E if not reachable)
+4.5 Conversion to Chomsky Normal Form
+
+To convert into CNF:
+
+Rule transformations:
+Replace terminals in mixed rules:
+a → X
+b → Y
+Break long productions:
+A → ABC  →  A → X1C, X1 → AB
+Ensure all productions are:
+A → BC
+A → a
+
+# 5. Implementation
+
+The solution was implemented in Python using a modular approach.
+
+Main components:
+CFG Class
+Stores grammar rules
+Provides methods for adding and printing productions
+Transformation Functions
+remove_epsilon()
+remove_unit()
+remove_non_productive()
+remove_inaccessible()
+to_cnf()
+
+Each function performs one transformation step, ensuring clarity and modularity.
+
+# 6. Example Execution
+Original Grammar:
+S → aB | AC
+A → a | ASC | BC | aD
+B → b | bS
+C → ε | BA
+D → abC
+E → aB
+After Transformations:
+
+Step-by-step transformations produce a simplified grammar without:
+
+ε-productions
+unit productions
+useless symbols
+Final CNF Grammar (simplified form):
+S → XB | AC | AS | BC | ...
+A → BC | XD | ...
+B → YS | b
+D → XY
+X → a
+Y → b
+# 7. Results
+
+The program successfully:
+
+Eliminates ε-productions
+Removes unit productions
+Cleans useless symbols
+Converts grammar into near-CNF form
+
+The resulting grammar follows CNF constraints:
+
+Only binary productions (A → BC)
+Only terminal productions (A → a)
+# 8. Conclusion
+
+This laboratory work demonstrates how a Context-Free Grammar can be transformed into Chomsky Normal Form.
+
+Through this process, the structure of the grammar becomes more regular and suitable for parsing algorithms.
+
+Key concepts learned:
+
+Grammar simplification techniques
+Role of ε-productions and unit productions
+Importance of CNF in parsing
+Step-by-step normalization of grammars
+
+This lab strengthens understanding of formal languages and prepares for advanced topics such as parsing algorithms.
+
+# 9. References
+Formal Languages and Automata Theory course materials
+Lecture notes on Context-Free Grammars
+Python documentation

@@ -645,3 +645,240 @@ This lab strengthens understanding of formal languages and prepares for advanced
 Formal Languages and Automata Theory course materials
 Lecture notes on Context-Free Grammars
 Python documentation
+
+
+
+
+
+
+
+# Laboratory Work 6
+## Lexical Analysis, Parsing and Abstract Syntax Tree Construction
+
+---
+
+# 1. Introduction
+
+This laboratory work focused on the implementation of a simple compiler front-end component capable of performing lexical analysis, syntactic analysis, and Abstract Syntax Tree (AST) generation.
+
+Parsing is an important stage in compiler construction and programming language processing. It transforms raw input text into a structured representation that can later be interpreted, analyzed, or compiled. In this work, a recursive descent parser was implemented together with a lexer that uses regular expressions for token recognition.
+
+The project demonstrates the fundamental stages of language processing:
+- Lexical Analysis
+- Token Classification
+- Syntax Analysis
+- AST Construction
+
+---
+
+# 2. Objectives
+
+The objectives of this laboratory work were:
+
+- To understand the concept of parsing and syntactic analysis.
+- To implement lexical analysis using regular expressions.
+- To define token categories using a `TokenType` enumeration.
+- To create data structures for an Abstract Syntax Tree (AST).
+- To implement a parser capable of extracting syntactic information from input expressions.
+- To understand how compiler front-end components operate together.
+
+---
+
+# 3. Theoretical Background
+
+## 3.1 Lexical Analysis
+
+Lexical analysis is the first phase of a compiler or interpreter. During this stage, the input text is divided into smaller units called tokens.
+
+Examples of tokens include:
+- Identifiers
+- Numbers
+- Operators
+- Parentheses
+- Keywords
+
+For example, the expression:
+
+#
+x = 5 + 3
+
+is transformed into:
+
+IDENTIFIER ASSIGN NUMBER PLUS NUMBER
+
+The lexer implemented in this laboratory uses regular expressions to identify token types.
+
+## 3.2 Parsing
+
+Parsing is the process of analyzing the syntactic structure of a sequence of tokens according to grammar rules.
+
+The parser verifies that the input follows valid syntax and constructs a hierarchical representation of the expression.
+
+In this work, recursive descent parsing was used because it is:
+
+simple,
+readable,
+easy to implement for small grammars.
+## 3.3 Abstract Syntax Tree (AST)
+
+An Abstract Syntax Tree is a hierarchical representation of program structure.
+
+Unlike a parse tree, the AST omits unnecessary grammar symbols and keeps only the logical structure of expressions.
+
+For example:
+
+5 + 3 * 2
+
+produces the AST:
+
+      +
+     / \
+    5   *
+       / \
+      3   2
+
+The AST preserves operator precedence and expression hierarchy.
+
+# 4. Technologies Used
+
+The implementation was developed in Python.
+
+The following libraries/modules were used:
+
+Module	Purpose
+re	Regular expression processing
+enum	Definition of token types
+# 5. Program Structure
+
+The application was divided into several main components:
+
+## 5.1 TokenType Enumeration
+
+A TokenType enumeration was created to classify all possible token categories.
+
+Example token types:
+
+NUMBER
+IDENTIFIER
+PLUS
+MINUS
+MULTIPLY
+DIVIDE
+ASSIGN
+LPAREN
+RPAREN
+
+This improves readability and simplifies parser implementation.
+
+## 5.2 Token Class
+
+A Token class was implemented to store:
+
+token type
+token value
+
+Example:
+
+Token(TokenType.NUMBER, 5)
+## 5.3 Lexer
+
+The lexer performs lexical analysis using regular expressions.
+
+Its responsibilities include:
+
+scanning the input text,
+matching patterns,
+generating tokens,
+ignoring whitespace,
+reporting invalid characters.
+
+Example regex rules:
+
+r'\d+'                 # Numbers
+r'[A-Za-z_][A-Za-z0-9_]*'   # Identifiers
+r'\+'                  # Plus operator
+## 5.4 AST Nodes
+
+Several AST node classes were implemented:
+
+Node	Purpose
+NumberNode	Stores numeric values
+IdentifierNode	Stores variable names
+BinaryOperationNode	Represents operations
+AssignmentNode	Represents assignment expressions
+
+These nodes form the hierarchical AST structure.
+
+## 5.5 Parser
+
+The parser uses recursive descent parsing.
+
+The grammar implemented was:
+
+assignment -> IDENTIFIER = expression
+expression -> term ((+|-) term)*
+term -> factor ((*|/) factor)*
+factor -> NUMBER | IDENTIFIER | (expression)
+
+The parser:
+
+validates syntax,
+respects operator precedence,
+builds the AST.
+# 6. Program Execution
+Example Input
+x = 5 + 3 * 2
+Generated Tokens
+Token(TokenType.IDENTIFIER, x)
+Token(TokenType.ASSIGN, =)
+Token(TokenType.NUMBER, 5)
+Token(TokenType.PLUS, +)
+Token(TokenType.NUMBER, 3)
+Token(TokenType.MULTIPLY, *)
+Token(TokenType.NUMBER, 2)
+Token(TokenType.EOF, None)
+Generated AST
+Assign(Identifier(x) = (Number(5) + (Number(3) * Number(2))))
+
+This output confirms that multiplication has higher precedence than addition.
+
+# 7. Advantages of the Implementation
+
+The implemented solution has several advantages:
+
+Clear separation between lexer and parser.
+Use of regular expressions simplifies token recognition.
+Recursive descent parsing is easy to understand.
+AST representation simplifies future semantic analysis.
+Modular structure allows future expansion.
+# 8. Possible Improvements
+
+The project can be extended with:
+
+support for floating point numbers,
+support for functions,
+support for conditional statements,
+semantic analysis,
+symbol tables,
+AST visualization,
+interpretation or code generation.
+# 9. Conclusion
+
+In this laboratory work, a complete miniature parsing system was implemented.
+
+The developed program successfully:
+
+performs lexical analysis,
+categorizes tokens using regular expressions,
+parses arithmetic expressions,
+constructs an Abstract Syntax Tree.
+
+The laboratory provided practical understanding of compiler front-end architecture and demonstrated how syntax analysis is performed internally in programming language processors.
+
+The implementation also demonstrated the importance of AST structures in representing program logic and preserving operator precedence.
+
+# 10. References
+Aho, A. V., Lam, M. S., Sethi, R., Ullman, J. D. — Compilers: Principles, Techniques, and Tools.
+Python Documentation — re module.
+Recursive Descent Parsing Concepts.
+Abstract Syntax Tree Fundamentals.
